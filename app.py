@@ -1,6 +1,7 @@
 from flask import *
 import requests
 from flask_cors import CORS
+import json
 
 from settings import API_KEY
 
@@ -13,39 +14,57 @@ def index():
 
     return "This Is Backend System."
 
+@app.route("/test")
+def test():
+    url = "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
+    param = { 
+        "key": API_KEY,
+        "format": "json",
+        "count": 5,
+        "name": "うん",
+        }
+    
+
+    res = requests.get(url, params=param)
+    res_json = res.json()
+
+    res_json_hairetu = []
+
+    for jsonObj in res_json["results"]["shop"]:
+        res_json_hairetu.append(jsonObj)
+
+    return res_json_hairetu
+
 @app.route("/search_shop", methods=["POST"])
 def search_shop():
-    dummy_json =  [
-        {
-          "name":"ダミー1",
-          "acccess":"HOGEから徒歩一分",
-          "thumb_img":"hoge.jpg",
-          "location":"A町B市",
-          "business_hour":"8:00~18:00",
-        },
-        {
-          "name":"ダミー2",
-          "acccess":"HOGEから徒歩99分",
-          "thumb_img":"hoge.jpg",
-          "location":"A町B市",
-          "business_hour":"8:00~18:00",
-        },
-        {
-          "name":"ダミー3",
-          "acccess":"HOGEから徒歩一分",
-          "thumb_img":API_KEY,
-          "location":"A町B市",
-          "business_hour":"8:00~18:00",
-        },
-        {
-          "name":"ダミー4",
-          "acccess":"HOGEから徒歩一分",
-          "thumb_img":"hogee.jpg",
-          "location":"A町B市",
-          "business_hour":"8:00~18:00",
+    url = "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
+    param = { 
+        "key": API_KEY,
+        "format": "json",
+        "count": 5,
+        "lat": request.json["Latitude"],
+        "lng": request.json["Longitude"],
+        "range": 2,
+        #"name": request.json['name'],
         }
-      ]
-    return jsonify(dummy_json)
+    
+    res = requests.get(url, params=param)
+    res_json = res.json()
+    res_array = []
+
+
+    for jsonObj in res_json["results"]["shop"]:
+        res_array.append(
+            {
+                "name":jsonObj["name"],
+                "acccess":jsonObj["address"],
+                "thumb_img":jsonObj["logo_image"],
+                "location":jsonObj["access"],
+                "business_hour":jsonObj["open"],
+            }
+        )
+
+    return res_array
 
 
 
