@@ -41,10 +41,11 @@ def search_shop():
     param = { 
         "key": API_KEY,
         "format": "json",
-        "count": 5,
+        "count": request.json["Page_Item_Amount"],
+        "start": ( (request.json["Current_Pageno"] - 1) * request.json["Page_Item_Amount"]) + 1,
         "lat": request.json["Latitude"],
         "lng": request.json["Longitude"],
-        "range": 2,
+        "range": request.json["Range"],
         #"name": request.json['name'],
         }
     
@@ -64,7 +65,10 @@ def search_shop():
             }
         )
 
-    return res_array
+    return {
+                "shop":res_array,
+                "results_available":res_json["results"]["results_available"],
+        }
 
 
 
