@@ -37,16 +37,21 @@ def test():
 
 @app.route("/search_shop", methods=["POST"])
 def search_shop():
+    page_count = int(request.json["Page_Item_Amount"])
+
     url = "http://webservice.recruit.co.jp/hotpepper/gourmet/v1/"
     param = { 
         "key": API_KEY,
         "format": "json",
-        "count": request.json["Page_Item_Amount"],
-        "start": ( (request.json["Current_Pageno"] - 1) * request.json["Page_Item_Amount"]) + 1,
+        "count": page_count,
+        "start": ( (request.json["Current_Pageno"] - 1) * page_count) + 1,
         "lat": request.json["Latitude"],
         "lng": request.json["Longitude"],
         "range": request.json["Range"],
-        #"name": request.json['name'],
+        "keyword": request.json["Keyword"],
+        "private_room": request.json["Private_Room"],
+        "lunch": request.json["Lunch"],
+        "midnight_meal": request.json["Midnight_Meal"],
         }
     
     res = requests.get(url, params=param)
@@ -58,9 +63,9 @@ def search_shop():
         res_array.append(
             {
                 "name":jsonObj["name"],
-                "acccess":jsonObj["address"],
+                "acccess":jsonObj["access"],
                 "thumb_img":jsonObj["logo_image"],
-                "location":jsonObj["access"],
+                "location":jsonObj["address"],
                 "business_hour":jsonObj["open"],
             }
         )
