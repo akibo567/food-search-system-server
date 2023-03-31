@@ -67,6 +67,15 @@ def search_shop():
                 "thumb_img":jsonObj["logo_image"],
                 "location":jsonObj["address"],
                 "business_hour":jsonObj["open"],
+                "name_kana":jsonObj["name_kana"],
+                "catch":jsonObj["catch"],
+                "close":jsonObj["close"],
+                "private_room":jsonObj["private_room"],
+                "party_capacity":jsonObj["party_capacity"],
+                "budget_average":jsonObj["budget"]["average"],
+                "urls_pc":jsonObj["urls"]["pc"],
+                "coupon_urls_pc":jsonObj["coupon_urls"]["pc"],
+                "coupon_urls_sp":jsonObj["coupon_urls"]["sp"],
             }
         )
 
