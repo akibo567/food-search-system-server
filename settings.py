@@ -8,3 +8,4 @@ load_dotenv(verbose=True)
 dotenv_path = join(dirname(__file__), ".env")
 
 API_KEY = os.environ.get("API_KEY")
+CORS_ORIGIN = os.environ.get("CORS_ORIGIN")
