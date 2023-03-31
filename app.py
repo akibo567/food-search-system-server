@@ -50,6 +50,7 @@ def search_shop():
         "range": request.json["Range"],
         "keyword": request.json["Keyword"],
         "private_room": request.json["Private_Room"],
+        "parking": request.json["Parking"],
         "lunch": request.json["Lunch"],
         "midnight_meal": request.json["Midnight_Meal"],
         }
@@ -71,11 +72,13 @@ def search_shop():
                 "catch":jsonObj["catch"],
                 "close":jsonObj["close"],
                 "private_room":jsonObj["private_room"],
+                "parking":jsonObj["parking"],
                 "party_capacity":jsonObj["party_capacity"],
                 "budget_average":jsonObj["budget"]["average"],
                 "urls_pc":jsonObj["urls"]["pc"],
                 "coupon_urls_pc":jsonObj["coupon_urls"]["pc"],
                 "coupon_urls_sp":jsonObj["coupon_urls"]["sp"],
+                "capacity":jsonObj["capacity"],
             }
         )
 
