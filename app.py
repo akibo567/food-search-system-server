@@ -30,9 +30,13 @@ def search_shop():
         "keyword": request.json["Keyword"],
         "private_room": request.json["Private_Room"],
         "parking": request.json["Parking"],
+        "budget": request.json["Budget"],
         "lunch": request.json["Lunch"],
         "midnight_meal": request.json["Midnight_Meal"],
         }
+    
+    if request.json["Budget"] != "":
+        param["budget"] = request.json["Budget"]
     
     res = requests.get(url, params=param)
     res_json = res.json()
@@ -65,6 +69,30 @@ def search_shop():
                 "shop":res_array,
                 "results_available":res_json["results"]["results_available"],
         }
+
+@app.route("/budget_list", methods=["POST"])
+def budget_list():
+
+    url = "http://webservice.recruit.co.jp/hotpepper/budget/v1/"
+    param = { 
+        "key": API_KEY,
+        "format": "json",
+        }
+    
+    res = requests.get(url, params=param)
+    res_json = res.json()
+    res_array = []
+
+
+    for jsonObj in res_json["results"]["budget"]:
+        res_array.append(
+            {
+                "code":jsonObj["code"],
+                "name":jsonObj["name"],
+            }
+        )
+
+    return {"budget":res_array}
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=8888, threaded=True)
